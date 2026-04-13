@@ -1,0 +1,110 @@
+{
+  "name": "advanced-file-tree-generator",
+  "displayName": "Advanced File Tree Generator",
+  "description": "Generates an advanced, customizable file tree representation of your workspace.",
+  "version": "0.0.1",
+  "publisher": "arvindkumar1422",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/arvindkumar1422/advanced_file_tree_generator"
+  },
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "llmFileTree",
+          "title": "LLM File Tree",
+          "icon": "$(list-tree)"
+        }
+      ]
+    },
+    "views": {
+      "llmFileTree": [
+        {
+          "id": "llmFileTreeView",
+          "name": "Workspace Structure",
+          "icon": "$(list-tree)"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "llmFileTree.refresh",
+        "title": "Refresh Tree",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "llmFileTree.copy",
+        "title": "Copy Tree to Clipboard",
+        "icon": "$(copy)"
+      },
+      {
+        "command": "llmFileTree.exclude",
+        "title": "Exclude (-)",
+        "icon": "$(dash)"
+      },
+      {
+        "command": "llmFileTree.include",
+        "title": "Include (+)",
+        "icon": "$(add)"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "llmFileTree.copy",
+          "when": "view == llmFileTreeView",
+          "group": "navigation@1"
+        },
+        {
+          "command": "llmFileTree.refresh",
+          "when": "view == llmFileTreeView",
+          "group": "navigation@2"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "llmFileTree.exclude",
+          "when": "view == llmFileTreeView && viewItem == included",
+          "group": "inline"
+        },
+        {
+          "command": "llmFileTree.include",
+          "when": "view == llmFileTreeView && viewItem == excluded",
+          "group": "inline"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run package",
+    "compile": "webpack",
+    "watch": "webpack --watch",
+    "package": "webpack --mode production --devtool hidden-source-map",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "npm run compile-tests && npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.80.0",
+    "@types/node": "18.x",
+    "@typescript-eslint/eslint-plugin": "^6.4.0",
+    "@typescript-eslint/parser": "^6.4.0",
+    "eslint": "^8.47.0",
+    "glob": "^10.3.3",
+    "typescript": "^5.1.6",
+    "ts-loader": "^9.4.4",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4"
+  }
+}
